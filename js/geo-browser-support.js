@@ -3,6 +3,7 @@
     var supportOutput = document.querySelector("#supportOutput"),
         positionOutput = document.querySelector("#positionOutput"),
         setPosition = document.querySelector("#setPosition"),
+        goToSrc = document.querySelector("#goToSrc"),
         findPositionButton = document.querySelector("#findPosition");
 
     if (!navigator.geolocation) {
@@ -19,6 +20,23 @@
             LON = position.coords.longitude;
 
         positionOutput.innerHTML = "Twoja pozycja to: " + LAT + ", " + LON;
+    }
+
+
+    function geoSuccessSrc(position) {
+
+        positionOutput.innerHTML = "";
+
+        var LAT = position.coords.latitude,
+            LON = position.coords.longitude,
+            link = document.createElement("a");
+
+        // link.setAttribute("target", "_blank");
+        link.setAttribute("href", `https://www.bing.com/maps?cp=${LAT}~${LON}`);
+        link.innerHTML = `https://www.bing.com/maps?cp=${LAT}~${LON}`;
+
+        positionOutput.appendChild(link);
+
     }
 
     function geoSuccessLoc(position) {
@@ -73,8 +91,6 @@
 
     setPosition.onclick = function () {
 
-        positionOutput.innerHTML = "Czekaj...";
-
         navigator.geolocation.getCurrentPosition(geoSuccessLoc, geoError, option);
 
     }
@@ -82,9 +98,13 @@
 
     findPositionButton.onclick = function () {
 
-        positionOutput.innerHTML = "Czekaj...";
-
         navigator.geolocation.getCurrentPosition(geoSuccess, geoError, option);
+
+    }
+
+    goToSrc.onclick = function () {
+
+        navigator.geolocation.getCurrentPosition(geoSuccessSrc, geoError, option);
 
     }
 
